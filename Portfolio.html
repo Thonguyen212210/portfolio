@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyễn Duy Phúc Thọ — Portfolio</title>
+<link rel="stylesheet" href="assets/colors_and_type.css">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--fg-default);
+    font-family:var(--font-body);-webkit-font-smoothing:antialiased;
+    --display-scale:1;
+  }
+  /* ---- accent theming (driven by Tweaks) ---- */
+  :root{
+    --accent:var(--pine-800); --accent-700:var(--pine-700); --accent-50:var(--pine-50);
+    --hero-bg:#122F2F; --accent-press:var(--press-pine); --on-accent:var(--sun);
+  }
+  [data-accent="midnight"]{
+    --accent:var(--midnight-700); --accent-700:var(--midnight-700); --accent-50:var(--midnight-50);
+    --hero-bg:#161443; --accent-press:var(--press-midnight); --on-accent:#fff;
+  }
+  [data-accent="carmine"]{
+    --accent:var(--carmine-600); --accent-700:var(--carmine-700); --accent-50:var(--carmine-50);
+    --hero-bg:#420B1B; --accent-press:var(--press-carmine); --on-accent:#fff;
+  }
+
+  .wrap{max-width:1160px;margin:0 auto;padding:0 var(--s-7)}
+  a{color:inherit;text-decoration:none}
+  section{position:relative}
+
+  /* ---------- NAV ---------- */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(250,250,248,.82);
+    backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid var(--sand)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:var(--s-3)}
+  .brand .mk{width:34px;height:34px;border-radius:9px;display:block}
+  .brand b{font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:-.02em}
+  .navlinks{display:flex;align-items:center;gap:var(--s-7)}
+  .navlinks a{font-family:var(--font-label);font-weight:600;font-size:14px;color:var(--fg-muted);transition:color .12s}
+  .navlinks a:hover{color:var(--accent-700)}
+  .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;border:0;cursor:pointer;
+    font-family:var(--font-label);font-weight:700;font-size:14px;line-height:18px;padding:11px 18px;
+    border-radius:var(--r-10);letter-spacing:-.005em;transition:transform .12s ease-out,box-shadow .12s ease-out}
+  .btn-p{background:var(--accent);color:var(--on-accent);box-shadow:var(--accent-press)}
+  .btn-p:active{transform:translateY(3px);box-shadow:none}
+  .btn-s{background:var(--white);color:var(--fg-default);border:1px solid var(--sand);box-shadow:var(--press-sand)}
+  .btn-s:active{transform:translateY(3px);box-shadow:none}
+  .btn-ghost{background:transparent;border:1px solid rgba(244,239,230,.28);color:var(--on-accent);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+  .btn-ghost:active{transform:translateY(3px);box-shadow:none}
+  @media(max-width:820px){.navlinks a:not(.btn){display:none}}
+
+  /* ---------- HERO ---------- */
+  .hero{background:var(--hero-bg);color:var(--sun);overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 90% at 78% -10%, rgba(244,239,230,.10), transparent 60%);pointer-events:none}
+  .hero .drum{width:760px;height:760px;left:-280px;top:50%;transform:translateY(-50%);opacity:.13}
+  /* Đông Sơn drum cultural watermark (pre-tinted PNG) */
+  .drum{position:absolute;pointer-events:none;z-index:0;object-fit:contain;display:block;
+    transform-origin:50% 50%;will-change:transform}
+  @keyframes drum-spin{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+  @keyframes drum-spin-mid{from{transform:translateY(-50%) rotate(0)}to{transform:translateY(-50%) rotate(-360deg)}}
+  .hero .drum,.edu .drum{animation:drum-spin-mid 120s linear infinite}
+  .foot .drum{animation:drum-spin 120s linear infinite}
+  @media(prefers-reduced-motion:reduce){.drum{animation:none!important}}
+  .hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--s-10);
+    align-items:center;padding-top:var(--s-12);padding-bottom:var(--s-12);position:relative;z-index:1}
+  .eyebrow.on-dark{color:rgba(244,239,230,.62)}
+  .hero h1{font-family:var(--font-display);font-weight:700;color:var(--sun);
+    font-size:calc(clamp(40px, 11vw, 76px) * var(--display-scale));line-height:.96;letter-spacing:-.04em;margin:32px 0 0}
+  .hero h1 .light{color:rgba(244,239,230,.55)}
+  .hero .lede{font-size:19px;line-height:30px;color:rgba(244,239,230,.82);max-width:30em;margin:22px 0 0}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:26px}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:var(--r-full);
+    background:rgba(244,239,230,.08);border:1px solid rgba(244,239,230,.16);
+    font-family:var(--font-label);font-weight:700;font-size:12.5px;color:rgba(244,239,230,.9)}
+  .chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.7}
+  .hero .cta{display:flex;gap:var(--s-3);margin-top:32px;flex-wrap:wrap}
+
+  .portrait{position:relative}
+  .portrait .frame{position:relative;border-radius:var(--r-24);overflow:hidden;
+    border:1px solid rgba(244,239,230,.18);box-shadow:0 30px 70px rgba(0,0,0,.45);aspect-ratio:3/4;background:#0B1F1F}
+  .portrait img{width:100%;height:100%;object-fit:cover;display:block}
+  .portrait .badge{position:absolute;left:-18px;bottom:26px;background:var(--white);color:var(--fg-default);
+    border-radius:var(--r-12);padding:13px 16px;box-shadow:var(--shadow-raised);display:flex;align-items:center;gap:12px}
+  .portrait .badge .n{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1;color:var(--accent-700)}
+  .portrait .badge .l{font-family:var(--font-label);font-weight:600;font-size:11.5px;color:var(--fg-muted);line-height:1.3}
+  @media(max-width:880px){
+    .hero .wrap{grid-template-columns:1fr;gap:var(--s-9)}
+    .portrait{max-width:360px}
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  .sec{padding:var(--s-12) 0}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s-7);margin-bottom:var(--s-9);flex-wrap:wrap}
+  .sec-head h2{font-family:var(--font-display);font-weight:700;font-size:40px;line-height:1.05;letter-spacing:-.03em;margin:10px 0 0}
+  .sec-head p{margin:0;color:var(--fg-muted);font-size:16px;line-height:26px;max-width:30em}
+  .rule{height:1px;background:var(--sand)}
+
+  /* ---------- ABOUT ---------- */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-10);align-items:start}
+  .about .statement{font-family:var(--font-display);font-weight:700;font-size:30px;line-height:1.22;letter-spacing:-.02em;margin:0;text-wrap:balance}
+  .about .statement em{font-style:normal;color:var(--accent-700)}
+  .about .body p{font-size:17px;line-height:29px;color:var(--gray-700);margin:0 0 18px}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--sand);
+    border:1px solid var(--sand);border-radius:var(--r-16);overflow:hidden;margin-top:28px}
+  .fact{background:var(--bg-card);padding:18px 20px}
+  .fact .k{font-family:var(--font-label);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-subtle)}
+  .fact .v{font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-.01em;margin-top:7px}
+  @media(max-width:880px){.about{grid-template-columns:1fr;gap:var(--s-8)}}
+
+  /* ---------- FOCUS CARDS ---------- */
+  .focus{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-6)}
+  .fcard{background:var(--bg-card);border:1px solid var(--sand);border-radius:var(--r-16);
+    padding:26px 24px 24px;box-shadow:var(--shadow-card);transition:transform .12s ease-out,box-shadow .12s ease-out}
+  .fcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-raised)}
+  .fcard .ico{width:46px;height:46px;border-radius:var(--r-12);background:var(--accent-50);
+    display:flex;align-items:center;justify-content:center;color:var(--accent-700)}
+  .fcard .ico svg{width:24px;height:24px}
+  .fcard h3{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:18px 0 8px}
+  .fcard p{margin:0;color:var(--gray-600);font-size:15px;line-height:24px}
+  .fcard .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+  .tag{display:inline-flex;align-items:center;padding:5px 11px;border-radius:var(--r-full);
+    background:var(--accent-50);color:var(--accent-700);font-family:var(--font-label);font-weight:700;font-size:12px}
+  @media(max-width:880px){.focus{grid-template-columns:1fr}}
+
+  /* ---------- EXPERIENCE CARDS ---------- */
+  .exp{display:flex;flex-direction:column;gap:var(--s-6)}
+  .xcard{display:grid;grid-template-columns:248px 1fr;background:var(--bg-card);
+    border:1px solid var(--sand);border-radius:var(--r-16);overflow:hidden;
+    box-shadow:var(--shadow-card);transition:transform .12s ease-out,box-shadow .12s ease-out}
+  .xcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-raised)}
+  .xcard .media{position:relative;min-height:250px;background:var(--sand)}
+  .xcard .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%}
+  .xcard .media.thumb{display:flex;align-items:center;justify-content:center;background:var(--accent-50)}
+  .xcard .media .letter{font-family:var(--font-display);font-weight:700;font-size:92px;line-height:1;color:var(--accent-700);opacity:.92}
+  .xcard .media.logo{display:flex;align-items:center;justify-content:center;background:var(--white);padding:26px}
+  .xcard .media.logo img{position:static;inset:auto;width:auto;height:auto;max-width:100%;max-height:118px;object-fit:contain}
+  .xcard .body{padding:26px 28px}
+  .xhead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .xkind{font-family:var(--font-label);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-subtle)}
+  .xname{font-family:var(--font-display);font-weight:700;font-size:25px;letter-spacing:-.02em;margin:7px 0 0}
+  .roles{margin-top:18px}
+  .role-item{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-top:1px solid var(--sand)}
+  .role-item:first-child{border-top:0;padding-top:2px}
+  .rl{font-family:var(--font-body);font-weight:600;font-size:16.5px;color:var(--fg-default);line-height:1.3}
+  .rmeta{font-family:var(--font-label);font-weight:600;font-size:12px;color:var(--fg-subtle);margin-top:4px;letter-spacing:.02em}
+  .stag{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:var(--r-full);
+    font-family:var(--font-label);font-weight:700;font-size:12px;white-space:nowrap}
+  .stag .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+  .stag.now{background:var(--success-100);color:#005A2E}
+  .stag.past{background:var(--sand);color:var(--gray-700)}
+  .stag.lead{background:var(--accent-50);color:var(--accent-700)}
+  /* current (accent-filled) card */
+  .xcard.current{background:var(--accent);border-color:var(--accent)}
+  .xcard.current .media.thumb{background:rgba(244,239,230,.12)}
+  .xcard.current .media .letter{color:var(--on-accent)}
+  .xcard.current .xname{color:var(--on-accent)}
+  .xcard.current .xkind{color:rgba(244,239,230,.6)}
+  .xcard.current .role-item{border-top-color:rgba(244,239,230,.2)}
+  .xcard.current .rl{color:var(--on-accent)}
+  .xcard.current .rmeta{color:rgba(244,239,230,.6)}
+  /* brand-mark thumb + description + link rows */
+  .xcard .media.brand{display:flex;align-items:center;justify-content:center;background:var(--accent-50)}
+  .xcard .media.brand img{position:static;inset:auto;width:104px;height:104px;border-radius:var(--r-20);box-shadow:var(--shadow-raised)}
+  .xcard.current .media.brand{background:rgba(244,239,230,.12)}
+  .xdesc{margin:12px 0 0;font-size:15px;line-height:23px;color:var(--gray-600);max-width:46ch}
+  .xcard.current .xdesc{color:rgba(244,239,230,.8)}
+  .plabel{font-family:var(--font-label);font-weight:700;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--fg-subtle);margin-top:20px}
+  .xcard.current .plabel{color:rgba(244,239,230,.55)}
+  .links{margin-top:6px}
+  .lrow{display:flex;align-items:center;gap:13px;padding:13px 0;border-top:1px solid var(--sand);color:inherit}
+  .lmeta{display:flex;flex-direction:column;min-width:0}
+  .lt{font-family:var(--font-body);font-weight:600;font-size:15.5px;color:var(--fg-default);line-height:1.25}
+  .lu{font-family:var(--font-label);font-weight:600;font-size:12.5px;color:var(--fg-muted);margin-top:3px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ldot{width:34px;height:34px;border-radius:10px;background:var(--accent-50);color:var(--accent-700);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .ldot svg{width:17px;height:17px}
+  .larr{margin-left:auto;color:var(--accent-700);flex-shrink:0;transition:transform .12s ease-out}
+  .larr svg{width:18px;height:18px;display:block}
+  .lrow:hover .larr{transform:translate(3px,-3px)}
+  .lrow:hover .lt{color:var(--accent-700)}
+  .xcard.current .lrow{border-top-color:rgba(244,239,230,.2)}
+  .xcard.current .lt,.xcard.current .larr{color:var(--on-accent)}
+  .xcard.current .lu{color:rgba(244,239,230,.62)}
+  .xcard.current .ldot{background:rgba(244,239,230,.14);color:var(--on-accent)}
+  .xcard.current .lrow:hover .lt{color:var(--on-accent);opacity:.85}
+  @media(max-width:720px){
+    .xcard{grid-template-columns:1fr}
+    .xcard .media{min-height:220px}
+  }
+
+  /* ---------- EDUCATION BAND ---------- */
+  .edu{background:var(--paper-soft);border-top:1px solid var(--sand);border-bottom:1px solid var(--sand);overflow:hidden}
+  .edu .sec{position:relative;z-index:1}
+  .edu .drum{width:440px;height:440px;right:-120px;top:50%;transform:translateY(-50%);opacity:.05}
+  .edu .inner{display:grid;grid-template-columns:auto 1fr;gap:var(--s-7);align-items:center}
+  .edu .crest{width:64px;height:64px;border-radius:var(--r-16);background:var(--accent);
+    display:flex;align-items:center;justify-content:center;box-shadow:var(--accent-press)}
+  .edu .crest svg{width:34px;height:34px}
+  .edu h3{font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:-.02em;margin:0}
+  .edu p{margin:6px 0 0;color:var(--fg-muted);font-size:16px}
+
+  /* ---------- CONTACT FOOTER ---------- */
+  .foot{background:var(--hero-bg);color:var(--sun);overflow:hidden}
+  .foot::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(100% 120% at 20% 120%, rgba(244,239,230,.10), transparent 55%);pointer-events:none}
+  .foot .wrap{position:relative;padding:var(--s-12) var(--s-7);z-index:1}
+  .foot .drum{width:660px;height:660px;right:-220px;top:-180px;opacity:.07}
+  .foot .eyebrow{color:rgba(244,239,230,.6)}
+  .foot h2{font-family:var(--font-display);font-weight:700;color:var(--sun);
+    font-size:clamp(40px,6vw,66px);line-height:1.0;letter-spacing:-.04em;margin:16px 0 0;text-wrap:balance}
+  .contacts{display:flex;flex-wrap:wrap;gap:var(--s-9);margin-top:42px}
+  .contacts a{display:block}
+  .contacts .k{font-family:var(--font-label);font-weight:700;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,239,230,.5)}
+  .contacts .v{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin-top:9px;color:var(--sun);transition:opacity .12s}
+  .contacts a:hover .v{opacity:.7}
+  .foot .base{display:flex;align-items:center;justify-content:space-between;gap:var(--s-5);
+    margin-top:64px;padding-top:24px;border-top:1px solid rgba(244,239,230,.14);
+    font-family:var(--font-label);font-weight:600;font-size:13px;color:rgba(244,239,230,.55);flex-wrap:wrap}
+  .foot .base img{height:26px;display:block}
+
+  /* texture overlay (Tweaks) */
+  body[data-texture="on"] .hero::after,
+  body[data-texture="on"] .foot::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(rgba(244,239,230,.20) 0.6px, transparent 0.7px);
+    background-size:7px 7px;opacity:.35;mix-blend-mode:overlay}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease-out,transform .6s ease-out}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+  /* ---------- MOBILE ---------- */
+  @media(max-width:640px){
+    .wrap{padding:0 var(--s-5)}
+    .sec{padding:var(--s-10) 0}
+    .hero .wrap{padding-top:var(--s-10);padding-bottom:var(--s-10)}
+    .hero .lede{font-size:17px;line-height:27px}
+    .hero .cta{flex-direction:column;align-items:stretch}
+    .hero .cta .btn{width:100%}
+    .portrait{max-width:none}
+    .portrait .badge{left:12px;bottom:12px}
+    .sec-head{align-items:flex-start;gap:var(--s-3);margin-bottom:var(--s-8)}
+    .sec-head h2{font-size:32px}
+    .about .statement{font-size:24px}
+    .about .body p{font-size:16px;line-height:27px}
+    .facts{grid-template-columns:1fr}
+    .fcard{padding:22px 20px}
+    .xcard .body{padding:22px 20px}
+    .xname{font-size:22px}
+    .role-item{flex-wrap:wrap;gap:8px}
+    .edu .inner{grid-template-columns:1fr;gap:var(--s-5)}
+    .edu h3{font-size:22px}
+    .contacts{gap:var(--s-6)}
+    .foot .wrap{padding:var(--s-10) var(--s-5)}
+    .foot .base{margin-top:40px}
+  }
+</style>
+</head>
+<body data-texture="off">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top" data-screen-label="Hero">
+  <img class="drum" src="assets/img/drum-sun.png" alt="" aria-hidden="true">
+  <div class="wrap">
+    <div class="intro">
+      <div class="eyebrow on-dark">Developer · Người tổ chức · Học sinh chuyên Tin</div>
+      <h1>Nguyễn Duy<br>Phúc Thọ<span class="light">.</span></h1>
+      <p class="lede">Mình viết phần mềm và dẫn dắt các dự án cộng đồng — học để bứt phá, làm để tạo ra giá trị thật cho người xung quanh.</p>
+      <div class="meta">
+        <span class="chip"><span class="dot"></span>THPT Chuyên Nguyễn Du</span>
+        <span class="chip"><span class="dot"></span>Chuyên Tin học</span>
+        <span class="chip"><span class="dot"></span>Sinh 02/10/2008</span>
+      </div>
+      <div class="cta">
+        <a class="btn btn-ghost" href="#work">Xem hoạt động</a>
+        <a class="btn btn-p" href="#contact">Liên hệ với mình</a>
+      </div>
+    </div>
+    <div class="portrait">
+      <div class="frame"><img src="uploads/photo-1780235881127.jpeg" alt="Chân dung Nguyễn Duy Phúc Thọ"></div>
+      <div class="badge">
+        <span class="n">17</span>
+        <span class="l">tuổi · và<br>đang học hỏi mỗi ngày</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="sec wrap" id="about" data-screen-label="Giới thiệu">
+  <div class="reveal">
+    <div class="eyebrow">01 — Giới thiệu</div>
+    <div class="sec-head">
+      <h2>Một chút về mình.</h2>
+    </div>
+  </div>
+  <div class="about reveal">
+    <p class="statement">Mình là Phúc Thọ — một học sinh chuyên Tin tin rằng <em>công nghệ và con người</em> nên đi cùng nhau. Mình lập trình để giải quyết vấn đề, và tổ chức để mọi người cùng tiến lên.</p>
+    <div class="body">
+      <p>Ở trường, mình theo đuổi lập trình tại lớp chuyên Tin của THPT Chuyên Nguyễn Du. Bên ngoài lớp học, mình là developer tại trung tâm tiếng Anh Trẻ Trâu, nơi mình xây dựng các công cụ hỗ trợ việc học.</p>
+      <p>Mình dành nhiều thời gian cho hoạt động cộng đồng — từ vai trò Project Leader của Bước Summercamp đến Trưởng ban Chương trình tại CLB Cộng Đồng. Với mình, dẫn dắt là biết lắng nghe, lên kế hoạch rõ ràng và đứng sau để đội ngũ toả sáng.</p>
+      <div class="facts">
+        <div class="fact"><div class="k">Họ và tên</div><div class="v">Nguyễn Duy Phúc Thọ</div></div>
+        <div class="fact"><div class="k">Ngày sinh</div><div class="v">02/10/2008</div></div>
+        <div class="fact"><div class="k">Trường</div><div class="v">Chuyên Nguyễn Du</div></div>
+        <div class="fact"><div class="k">Chuyên ngành</div><div class="v">Tin học</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule wrap" style="max-width:1160px"></div>
+
+<!-- ================= FOCUS ================= -->
+<section class="sec wrap" id="focus" data-screen-label="Lĩnh vực">
+  <div class="reveal">
+    <div class="eyebrow">02 — Lĩnh vực</div>
+    <div class="sec-head">
+      <h2>Mình làm gì.</h2>
+      <p>Ba mảng mình theo đuổi song song — kỹ thuật, tổ chức và đồng hành.</p>
+    </div>
+  </div>
+  <div class="focus">
+    <div class="fcard reveal">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 8l-4 4 4 4"/><path d="M15 8l4 4-4 4"/></svg></div>
+      <h3>Phát triển phần mềm</h3>
+      <p>Developer tại trung tâm tiếng Anh Trẻ Trâu. Mình xây dựng và bảo trì các công cụ hỗ trợ giảng dạy và vận hành.</p>
+      <div class="tags"><span class="tag">Web</span><span class="tag">Tự động hoá</span><span class="tag">Công cụ học tập</span></div>
+    </div>
+    <div class="fcard reveal">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.5a5 5 0 0 1 5 5"/></svg></div>
+      <h3>Tổ chức &amp; dẫn dắt</h3>
+      <p>Project Leader và Trưởng ban Chương trình cho các chương trình quy mô lớn — lên kế hoạch, điều phối đội ngũ và vận hành sự kiện.</p>
+      <div class="tags"><span class="tag">Quản lý dự án</span><span class="tag">Điều phối</span><span class="tag">Sự kiện</span></div>
+    </div>
+    <div class="fcard reveal">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 21l-4.9-2.6.9-5.5-4-3.9 5.5-.8z"/></svg></div>
+      <h3>Cố vấn &amp; đồng hành</h3>
+      <p>Cố vấn cấp cao và giám sát cho thế hệ kế tiếp, đồng thời là mentee của PISE — luôn học hỏi cả khi đang dẫn dắt.</p>
+      <div class="tags"><span class="tag">Cố vấn</span><span class="tag">Giám sát</span><span class="tag">Mentoring</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule wrap" style="max-width:1160px"></div>
+
+<!-- ================= TIMELINE ================= -->
+<section class="sec wrap" id="work" data-screen-label="Hoạt động">
+  <div class="reveal">
+    <div class="eyebrow">03 — Hoạt động</div>
+    <div class="sec-head">
+      <h2>Hành trình.</h2>
+      <p>Những vai trò mình đã và đang đảm nhiệm trong các tổ chức và chương trình.</p>
+    </div>
+  </div>
+  <div class="exp">
+
+    <div class="xcard current reveal">
+      <div class="media brand"><img src="assets/logo-yolth-mark.svg" alt="Yolth Education"></div>
+      <div class="body">
+        <div class="xhead">
+          <div>
+            <div class="xkind">Người sáng lập · hệ sinh thái</div>
+            <h3 class="xname">Yolth Education</h3>
+          </div>
+          <span class="stag now"><span class="dot"></span>Đang xây dựng</span>
+        </div>
+        <p class="xdesc">Hệ sinh thái học tập và làm việc dành cho học sinh — nơi việc học và sản phẩm thật đi cùng nhau.</p>
+        <div class="roles">
+          <div class="role-item">
+            <div><div class="rl">Founder</div><div class="rmeta">Nay · điều hành &amp; phát triển</div></div>
+          </div>
+        </div>
+        <div class="links">
+          <a class="lrow" href="https://yolth.io.vn" target="_blank" rel="noopener">
+            <span class="ldot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/></svg></span>
+            <span class="lmeta"><span class="lt">Website</span><span class="lu">yolth.io.vn</span></span>
+            <span class="larr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="xcard reveal">
+      <div class="media logo"><img src="assets/img/logo-tretrau.png" alt="Trẻ Trâu English Center"></div>
+      <div class="body">
+        <div class="xhead">
+          <div>
+            <div class="xkind">Công việc · hiện tại</div>
+            <h3 class="xname">Trẻ Trâu English Center</h3>
+          </div>
+          <span class="stag now"><span class="dot"></span>Đang làm</span>
+        </div>
+        <div class="roles">
+          <div class="role-item">
+            <div><div class="rl">Developer</div><div class="rmeta">Nay · đang làm việc</div></div>
+          </div>
+        </div>
+        <div class="plabel">Sản phẩm mình đã xây dựng</div>
+        <div class="links">
+          <a class="lrow" href="https://tretrau.vn" target="_blank" rel="noopener">
+            <span class="ldot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
+            <span class="lmeta"><span class="lt">TreTrau Landing Page</span><span class="lu">tretrau.vn</span></span>
+            <span class="larr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span>
+          </a>
+          <a class="lrow" href="https://tretrau.vn/clockct" target="_blank" rel="noopener">
+            <span class="ldot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <span class="lmeta"><span class="lt">Hệ thống quản lý thời gian</span><span class="lu">tretrau.vn/clockct</span></span>
+            <span class="larr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="xcard reveal">
+      <div class="media"><img src="assets/img/buoc.jpeg" alt="Phúc Thọ tại Bước Summercamp"></div>
+      <div class="body">
+        <div class="xhead">
+          <div>
+            <div class="xkind">Tổ chức giáo dục</div>
+            <h3 class="xname">Bước Summercamp</h3>
+          </div>
+        </div>
+        <div class="roles">
+          <div class="role-item">
+            <div><div class="rl">Cố vấn dự án</div><div class="rmeta">2026</div></div>
+            <span class="stag now"><span class="dot"></span>Đang đảm nhiệm</span>
+          </div>
+          <div class="role-item">
+            <div><div class="rl">Project Leader &amp; Vice-President</div><div class="rmeta">2025</div></div>
+            <span class="stag lead"><span class="dot"></span>Dẫn dắt</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xcard reveal">
+      <div class="media"><img src="assets/img/clb.jpeg" alt="Phúc Thọ tại CLB Cộng Đồng"></div>
+      <div class="body">
+        <div class="xhead">
+          <div>
+            <div class="xkind">Câu lạc bộ</div>
+            <h3 class="xname">CLB Cộng Đồng</h3>
+          </div>
+        </div>
+        <div class="roles">
+          <div class="role-item">
+            <div><div class="rl">Giám sát Chương trình</div><div class="rmeta">2026</div></div>
+            <span class="stag now"><span class="dot"></span>Đang đảm nhiệm</span>
+          </div>
+          <div class="role-item">
+            <div><div class="rl">Trưởng ban Chương trình</div><div class="rmeta">2025</div></div>
+            <span class="stag lead"><span class="dot"></span>Dẫn dắt</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xcard reveal">
+      <div class="media logo"><img src="assets/img/logo-pise.png" alt="PISE"></div>
+      <div class="body">
+        <div class="xhead">
+          <div>
+            <div class="xkind">Chương trình</div>
+            <h3 class="xname">PISE</h3>
+          </div>
+        </div>
+        <div class="roles">
+          <div class="role-item">
+            <div><div class="rl">Mentee</div><div class="rmeta">2025</div></div>
+            <span class="stag past"><span class="dot"></span>Đã hoàn thành</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= EDUCATION ================= -->
+<section class="edu" id="edu" data-screen-label="Học vấn">
+  <img class="drum" src="assets/img/drum-pine.png" alt="" aria-hidden="true">
+  <div class="sec wrap">
+    <div class="reveal" style="margin-bottom:var(--s-8)">
+      <div class="eyebrow">04 — Học vấn</div>
+    </div>
+    <div class="edu inner reveal">
+      <div class="crest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#F4EFE6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M7 11v5c0 1 2.5 2.5 5 2.5s5-1.5 5-2.5v-5"/><path d="M21 9v5"/></svg>
+      </div>
+      <div>
+        <h3>THPT Chuyên Nguyễn Du</h3>
+        <p>Lớp chuyên Tin học · tập trung vào lập trình, thuật toán và tư duy giải quyết vấn đề.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="foot" id="contact" data-screen-label="Liên hệ">
+  <img class="drum" src="assets/img/drum-sun.png" alt="" aria-hidden="true">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">05 — Liên hệ</div>
+      <h2>Cùng xây dựng<br>điều gì đó.</h2>
+    </div>
+    <div class="contacts reveal">
+      <a href="mailto:phucthoworkspace@gmail.com"><div class="k">Email</div><div class="v">phucthoworkspace@gmail.com</div></a>
+      <a href="tel:+84345961747"><div class="k">Điện thoại</div><div class="v">(+84) 345 961 747</div></a>
+      <a href="https://github.com/Thonguyen212210" target="_blank" rel="noopener"><div class="k">GitHub</div><div class="v">Thonguyen212210</div></a>
+      <a href="https://www.facebook.com/Tim2108hunter/" target="_blank" rel="noopener"><div class="k">Facebook</div><div class="v">Tim2108hunter</div></a>
+    </div>
+    <div class="base">
+      <img src="assets/logo-yolth-light.svg" alt="Yolth">
+      <span>© 2026 Nguyễn Duy Phúc Thọ — Study to break through.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TWEAKS ================= -->
+<div id="tweaks-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "Pine",
+  "texture": false,
+  "displayScale": 0.85
+}/*EDITMODE-END*/;
+
+function PortfolioTweaks(){
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(()=>{ document.documentElement.setAttribute('data-accent', String(t.accent).toLowerCase()); }, [t.accent]);
+  React.useEffect(()=>{ document.body.setAttribute('data-texture', t.texture ? 'on':'off'); }, [t.texture]);
+  React.useEffect(()=>{ document.body.style.setProperty('--display-scale', t.displayScale); }, [t.displayScale]);
+  return (
+    <TweaksPanel>
+      <TweakSection label="Màu nhấn" />
+      <TweakRadio label="Accent" value={t.accent} options={['Pine','Midnight','Carmine']}
+                  onChange={(v)=>setTweak('accent', v)} />
+      <TweakSection label="Hiển thị" />
+      <TweakSlider label="Cỡ tên" value={t.displayScale} min={0.85} max={1.2} step={0.01}
+                   onChange={(v)=>setTweak('displayScale', v)} />
+      <TweakToggle label="Hiệu ứng hạt nền" value={t.texture}
+                   onChange={(v)=>setTweak('texture', v)} />
+    </TweaksPanel>
+  );
+}
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<PortfolioTweaks/>);
+</script>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

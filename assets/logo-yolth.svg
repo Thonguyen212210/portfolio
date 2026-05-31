@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" fill="none">
+  
+  <g transform="translate(8,16)">
+    
+    <path d="M 38 64 L 22 64 L 47 16 L 72 64 L 56 64" stroke="#183D3D" stroke-width="3" stroke-linejoin="round" fill="none"></path>
+    <path d="M 22 64 L 47 16 L 72 64 Z" fill="#183D3D"></path>
+    
+    <path d="M 50 64 L 90 64 L 70 28 Z" fill="#183D3D"></path>
+    <path d="M 50 64 L 70 28 L 90 64" stroke="#183D3D" stroke-width="3" stroke-linejoin="round" fill="none"></path>
+    
+    <circle cx="56" cy="22" r="8" fill="#F4EFE6"></circle>
+  </g>
+  
+  <text x="116" y="64" font-family="&#39;Plus Jakarta Sans&#39;,&#39;Inter&#39;,system-ui,sans-serif" font-weight="700" font-size="44" letter-spacing="-1.2" fill="#2D2C25">Yolth</text>
+</svg>

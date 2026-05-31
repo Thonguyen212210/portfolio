@@ -1,0 +1,208 @@
+/* ===========================================================================
+   YOLTH Education — Design Tokens
+   ---------------------------------------------------------------------------
+   Source of truth: /Moodboard "Yolth Design Kit" page in the Figma file
+   (Pine / Carmine / Midnight / Gray neutrals + semantic colors).
+   Type comes from the same page — Plus Jakarta Sans (display) + Inter (body).
+   The chunky-press button effect is preserved from the IELTS Assistant
+   component library but recoloured into the Yolth palette.
+   =========================================================================== */
+
+/* ---------- Brand fonts ---------- */
+@font-face {
+  font-family: 'Young Display';
+  src: url('./fonts/Young_Typeface_Bold_Display.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Young';
+  src: url('./fonts/Young_Typeface.otf') format('opentype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Inter is kept as a graceful fallback for body */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* -------- PINE (theme 01 · brand primary) -------- */
+  --pine-50:  #EDF4F3;
+  --pine-100: #D4E5E3;
+  --pine-200: #ABCAC7;
+  --pine-300: #7FAFAB;
+  --pine-400: #4F8B86;
+  --pine-500: #336B66;
+  --pine-600: #245450;
+  --pine-700: #1F4845;
+  --pine-800: #183D3D;   /* primary */
+  --pine-900: #122F2F;
+  --pine-950: #0B1F1F;
+
+  /* -------- CARMINE (theme 02 · accent / error) -------- */
+  --carmine-50:  #FDEDF1;
+  --carmine-100: #F9D5DD;
+  --carmine-200: #F2A8BA;
+  --carmine-300: #E97A95;
+  --carmine-400: #DC4970;
+  --carmine-500: #C12553;
+  --carmine-600: #A0153E;   /* error / strong */
+  --carmine-700: #84122F;
+  --carmine-800: #5A0C24;
+  --carmine-900: #420B1B;
+  --carmine-950: #2A0510;
+
+  /* -------- MIDNIGHT (theme 03 · informational / depth) -------- */
+  --midnight-50:  #EEEDF6;
+  --midnight-100: #D7D6EC;
+  --midnight-200: #B0AED7;
+  --midnight-300: #8784BD;
+  --midnight-400: #5C5996;
+  --midnight-500: #3D3A76;
+  --midnight-600: #2A285F;
+  --midnight-700: #1B1A55;
+  --midnight-800: #161443;
+  --midnight-900: #0F0E33;
+  --midnight-950: #07061E;
+
+  /* -------- GRAY · warm neutrals (paper / ink) -------- */
+  --gray-50:  #F6F5F1;
+  --gray-100: #E9E7DF;
+  --gray-200: #D2CFC4;
+  --gray-300: #B2AE9F;
+  --gray-400: #8B8775;
+  --gray-500: #706C5B;
+  --gray-600: #5F5C4D;
+  --gray-700: #514E42;
+  --gray-800: #464339;
+  --gray-900: #3E3C33;
+  --gray-950: #2D2C25;     /* primary text */
+
+  /* -------- CANVAS / PAPER -------- */
+  --paper:        #FAFAF8;     /* the page colour — off-white, never pure */
+  --paper-soft:   #F6F5F1;
+  --sand:         #E9E7DF;     /* divider / sand band */
+  --sun:          #F4EFE6;     /* the mark's sun colour, also section accent */
+  --white:        #FFFFFF;
+  --black:        #000000;
+
+  /* -------- SEMANTIC (from the moodboard) -------- */
+  --success-100: #D6FFEA;
+  --success-200: #00A65A;
+  --error-100:   var(--carmine-100);
+  --error-200:   var(--carmine-600);
+  --warning-100: #FFEFD4;
+  --warning-200: #E08800;
+  --information-100: var(--midnight-100);
+  --information-200: var(--midnight-700);
+
+  /* -------- SEMANTIC SURFACE TOKENS -------- */
+  --fg-default:  var(--gray-950);
+  --fg-muted:    var(--gray-500);
+  --fg-subtle:   var(--gray-400);
+  --fg-disabled: var(--gray-300);
+  --fg-on-pine:  var(--sun);
+  --fg-on-carmine: var(--white);
+  --fg-on-sun:   var(--gray-950);
+  --fg-link:     var(--pine-800);
+
+  --bg-default: var(--paper);
+  --bg-card:    var(--white);
+  --bg-soft:    var(--paper-soft);
+  --bg-sunken:  var(--sand);
+  --bg-info:    var(--pine-50);
+
+  --border-default: var(--sand);
+  --border-strong:  var(--gray-200);
+  --border-focus:   var(--pine-500);
+
+  /* -------- RADIUS -------- */
+  --r-2: 2px;
+  --r-4: 4px;
+  --r-6: 6px;
+  --r-8: 8px;
+  --r-10: 10px;
+  --r-12: 12px;
+  --r-16: 16px;
+  --r-20: 20px;
+  --r-24: 24px;
+  --r-full: 9999px;
+
+  /* -------- SPACING -------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 40px;
+  --s-9: 48px;
+  --s-10: 64px;
+  --s-11: 80px;
+  --s-12: 96px;
+  --s-13: 120px;
+
+  /* -------- STROKE -------- */
+  --stroke-1: 1px;
+  --stroke-2: 2px;
+  --stroke-3: 3px;
+  --stroke-4: 4px;
+
+  /* -------- ELEVATION -------- */
+  --shadow-card:   0 1px 2px rgba(45,44,37,.04), 0 8px 24px rgba(45,44,37,.06);
+  --shadow-raised: 0 2px 4px rgba(45,44,37,.06), 0 16px 40px rgba(45,44,37,.10);
+
+  /* -------- CHUNKY-PRESS BUTTON SHADOWS (kept from the IELTS lib) -------- */
+  /* 3px solid drop in a deeper tone of the same hue — creates the "key" effect */
+  --press-pine:    0 3px 0 0 var(--pine-950);
+  --press-carmine: 0 3px 0 0 var(--carmine-800);
+  --press-midnight:0 3px 0 0 var(--midnight-900);
+  --press-sand:    0 3px 0 0 var(--gray-200);
+  --press-paper:   0 3px 0 0 var(--sand);
+
+  /* -------- FONT FAMILIES -------- */
+  --font-display: 'Young Display', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:    'Young', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-label:   'Young Display', 'Young', system-ui, sans-serif;
+}
+
+/* ===========================================================================
+   TYPOGRAPHY  — formal / editorial scale
+   =========================================================================== */
+
+.display-1 { font-family: var(--font-display); font-weight: 700; font-size: 96px; line-height: .98; letter-spacing: -.05em; color: var(--fg-default); }
+.display-2 { font-family: var(--font-display); font-weight: 700; font-size: 72px; line-height: 1.02; letter-spacing: -.035em; color: var(--fg-default); }
+
+.h1 { font-family: var(--font-display); font-weight: 700; font-size: 48px; line-height: 60px; letter-spacing: -.025em; color: var(--fg-default); }
+.h2 { font-family: var(--font-display); font-weight: 700; font-size: 36px; line-height: 44px; letter-spacing: -.02em; color: var(--fg-default); }
+.h3 { font-family: var(--font-display); font-weight: 700; font-size: 28px; line-height: 36px; letter-spacing: -.015em; color: var(--fg-default); }
+.h4 { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 30px; letter-spacing: -.01em; color: var(--fg-default); }
+.h5 { font-family: var(--font-body);    font-weight: 600; font-size: 18px; line-height: 26px; color: var(--fg-default); }
+
+.body-lg { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 28px; color: var(--fg-default); }
+.body-md { font-family: var(--font-body); font-weight: 400; font-size: 16px; line-height: 26px; color: var(--fg-default); }
+.body-sm { font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 22px; color: var(--fg-default); }
+.body-xs { font-family: var(--font-body); font-weight: 400; font-size: 12px; line-height: 18px; color: var(--fg-default); }
+
+.title-1 { font-family: var(--font-body); font-weight: 600; font-size: 18px; line-height: 24px; color: var(--fg-default); }
+.title-2 { font-family: var(--font-body); font-weight: 600; font-size: 16px; line-height: 22px; color: var(--fg-default); }
+.title-3 { font-family: var(--font-body); font-weight: 600; font-size: 14px; line-height: 20px; color: var(--fg-default); }
+
+.caption { font-family: var(--font-body); font-weight: 500; font-size: 12px; line-height: 16px; color: var(--fg-muted); }
+
+.eyebrow {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.btn-lg { font-family: var(--font-label); font-weight: 700; font-size: 15px; line-height: 20px; letter-spacing: -.005em; }
+.btn-md { font-family: var(--font-label); font-weight: 700; font-size: 14px; line-height: 18px; letter-spacing: -.005em; }
+.btn-sm { font-family: var(--font-label); font-weight: 700; font-size: 13px; line-height: 16px; letter-spacing: -.005em; }
